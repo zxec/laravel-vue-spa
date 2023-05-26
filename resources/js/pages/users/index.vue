@@ -58,7 +58,7 @@
               </router-link>
             </div>
             <div>
-              <v-button type="danger" class="ms-3" @click.prevent="delete(user.id)">
+              <v-button type="danger" class="ms-3" native-type="button" @click="del(user.id)">
                 <fa :icon="icons.delete" fixed-width />
               </v-button>
             </div>
@@ -106,7 +106,7 @@ export default {
     async create () {
       await axios.get('/api/create')
     },
-    async delete (id) {
+    async del (id) {
       const { data } = await axios.delete(`/api/users/${id}`)
       this.$store.dispatch('users/deleteUser', { users: data })
     }

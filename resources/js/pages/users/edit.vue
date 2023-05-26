@@ -6,7 +6,7 @@
           {{ $t('verify_email_address') }}
         </div>
       </card>
-      <card v-else :title="$t('create')">
+      <card v-else :title="$t('update')">
         <form @submit.prevent="update" @keydown="form.onKeydown($event)">
           <!-- Name -->
           <div class="mb-3 row">

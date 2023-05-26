@@ -4,15 +4,23 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Services\UserService as Service;
 use App\Http\Requests\User\UserEditRequest;
 use App\Http\Requests\User\UserCreateRequest;
 
 class UserController extends Controller
 {
+    public Service $service;
+
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(): \Illuminate\Http\JsonResponse
     {
@@ -23,11 +31,11 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserCreateRequest $request): \Illuminate\Http\JsonResponse
     {
-        return response()->json(User::create($request->validated()));
+        return $this->service->store($request->validated());
     }
 
     /**
@@ -35,21 +43,22 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UserEditRequest $request, User $user)
+    public function update(UserEditRequest $request, User $user): \Illuminate\Http\JsonResponse
     {
-        return response()->json($user->update($request->validated()));
+        return $this->service->update($request->validated(), $user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
-        return response()->json($user->delete());
+        // $user = User::find($user);
+        return response()->json(User::destroy($id));
     }
 }

@@ -25,7 +25,7 @@ class UserEditRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:255',
-            'email' => "required|email:filter|max:255|unique:users,email,$this->id",
+            'email' => 'required|email:filter|max:255|unique:users,email,'. $this->user->id,
             'password' => 'nullable|string|confirmed|min:6|max:255',
         ];
     }

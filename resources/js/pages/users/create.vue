@@ -104,7 +104,7 @@ export default {
         // this.$store.dispatch('auth/saveToken', { token })
 
         // Update the user.
-        await this.$store.dispatch('auth/updateUser', { user: data })
+        await this.$store.dispatch('users/createUser', { user: data })
 
         // Redirect home.
         this.$router.push({ name: 'users.index' })
