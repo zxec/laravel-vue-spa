@@ -33,7 +33,8 @@ class UserService
         } else {
             $request['password'] = Hash::make($request['password']);
         }
-        return response()->json($user->update($request));
+        $user->update($request);
+        return response()->json($user);
     }
 
     /**
@@ -44,7 +45,9 @@ class UserService
      */
     public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
-        // $user = User::find($user);
+        if(auth()->user()->id === $id) {
+            return response()->json(['error' => __('auth.fail_delete_user')]);
+        }
         return response()->json(User::destroy($id));
     }
 }

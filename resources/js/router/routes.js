@@ -15,7 +15,6 @@ export default [
   { path: '/users', name: 'users.index', component: page('users/index.vue') },
   { path: '/users/create', name: 'users.create', component: page('users/create.vue') },
   { path: '/users/edit/:id', name: 'users.edit', component: page('users/edit.vue') },
-  // { path: '/users/delete/:id', name: 'users.delete', component: page('users/delete.vue') },
 
   { path: '/home', name: 'home', component: page('home.vue') },
   {

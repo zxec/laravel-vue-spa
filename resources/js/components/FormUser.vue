@@ -1,8 +1,8 @@
-<template>
-  <!-- <div class="row">
+<template :title="title">
+  <div class="row">
     <div class="col-lg-7 m-auto">
-      <card :title="$t('update')">
-        <form @submit.prevent="update" @keydown="form.onKeydown($event)">
+      <card :title="title">
+        <form @submit.prevent="`${action}`" @keydown="form.onKeydown($event)">
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('name') }}</label>
             <div class="col-md-7">
@@ -34,34 +34,59 @@
           <div class="mb-3 row">
             <div class="col-md-7 offset-md-3 d-flex">
               <v-button :loading="form.busy">
-                {{ $t('update') }}
+                {{ title }}
               </v-button>
             </div>
           </div>
         </form>
       </card>
     </div>
-  </div> -->
-  <form-user :title="$t('update')" :action="update" :user="user" />
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import FormUser from '~/components/FormUser'
+import Form from 'vform'
 
 export default {
-  components: {
-    FormUser
-  },
+  name: 'FormUser',
 
   middleware: 'auth',
 
-  computed: mapGetters({
-    users: 'users/users'
+  props: {
+    user: { type: Object, default: null },
+    title: { type: String, default: null },
+    action: { type: String, default: null }
+  },
+
+  metaInfo () {
+    return { title: this.$t('settings') }
+  },
+
+  data: () => ({
+    form: new Form({
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
+    })
   }),
 
   created () {
-    this.user = this.users.find(user => user.id === this.$route.params.id)
+    this.form.name = this.user.name
+    this.form.email = this.user.email
+  },
+
+  methods: {
+    async update () {
+      const { data } = await this.form.patch(`/api/users/${this.$route.params.id}`)
+      await this.$store.dispatch('users/updateUser', { user: data })
+      this.$router.push({ name: 'users.index' })
+    },
+    async create () {
+      const { data } = await this.form.post('/api/users')
+      await this.$store.dispatch('users/createUser', { user: data })
+      this.$router.push({ name: 'users.index' })
+    }
   }
 }
 </script>

@@ -1,14 +1,8 @@
 <template>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-7 m-auto">
-      <card v-if="mustVerifyEmail" :title="$t('create')">
-        <div class="alert alert-success" role="alert">
-          {{ $t('verify_email_address') }}
-        </div>
-      </card>
-      <card v-else :title="$t('create')">
+      <card :title="$t('create')">
         <form @submit.prevent="create" @keydown="form.onKeydown($event)">
-          <!-- Name -->
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('name') }}</label>
             <div class="col-md-7">
@@ -16,8 +10,6 @@
               <has-error :form="form" field="name" />
             </div>
           </div>
-
-          <!-- Email -->
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('email') }}</label>
             <div class="col-md-7">
@@ -25,8 +17,6 @@
               <has-error :form="form" field="email" />
             </div>
           </div>
-
-          <!-- Password -->
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('password') }}</label>
             <div class="col-md-7">
@@ -34,8 +24,6 @@
               <has-error :form="form" field="password" />
             </div>
           </div>
-
-          <!-- Password Confirmation -->
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('confirm_password') }}</label>
             <div class="col-md-7">
@@ -43,10 +31,8 @@
               <has-error :form="form" field="password_confirmation" />
             </div>
           </div>
-
           <div class="mb-3 row">
             <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
               <v-button :loading="form.busy">
                 {{ $t('create') }}
               </v-button>
@@ -55,61 +41,18 @@
         </form>
       </card>
     </div>
-  </div>
+  </div> -->
+  <form-user :title="$t('create')" :action="create" />
 </template>
 
 <script>
-import Form from 'vform'
-import { mapGetters } from 'vuex'
-// import axios from 'axios'
+import FormUser from '~/components/FormUser'
 
 export default {
-  middleware: 'auth',
-
-  metaInfo () {
-    return { title: this.$t('settings') }
+  components: {
+    FormUser
   },
 
-  data: () => ({
-    form: new Form({
-      name: '',
-      email: '',
-      password: '',
-      password_confirmation: ''
-    }),
-    mustVerifyEmail: false
-  }),
-
-  computed: mapGetters({
-    users: 'users/users'
-  }),
-
-  // created () {
-  //   this.index()
-  // },
-
-  methods: {
-    async create () {
-      // Register the user.
-      const { data } = await this.form.post('/api/users')
-
-      // Must verify email fist.
-      if (data.status) {
-        this.mustVerifyEmail = true
-      } else {
-        // Log in the user.
-        // const { data: { token } } = await this.form.post('/api/login')
-
-        // Save the token.
-        // this.$store.dispatch('auth/saveToken', { token })
-
-        // Update the user.
-        await this.$store.dispatch('users/createUser', { user: data })
-
-        // Redirect home.
-        this.$router.push({ name: 'users.index' })
-      }
-    }
-  }
+  middleware: 'auth'
 }
 </script>

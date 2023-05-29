@@ -52,15 +52,15 @@
           <td class="d-flex justify-content-center">
             <div>
               <router-link :to="{ name: 'users.edit', params: { id: user.id }}">
-                <v-button type="success">
+                <button class="btn btn-success">
                   <fa :icon="icons.edit" fixed-width />
-                </v-button>
+                </button>
               </router-link>
             </div>
             <div>
-              <v-button type="danger" class="ms-3" native-type="button" @click="del(user.id)">
+              <button class="btn btn-danger ms-3" @click="del(user.id)">
                 <fa :icon="icons.delete" fixed-width />
-              </v-button>
+              </button>
             </div>
           </td>
         </tr>
@@ -103,12 +103,11 @@ export default {
       const { data } = await axios.get('/api/users')
       this.$store.dispatch('users/indexUsers', { users: data })
     },
-    async create () {
-      await axios.get('/api/create')
-    },
     async del (id) {
       const { data } = await axios.delete(`/api/users/${id}`)
-      this.$store.dispatch('users/deleteUser', { users: data })
+      if (typeof data.error === 'undefined') {
+        this.$store.dispatch('users/deleteUser', { users: data })
+      }
     }
   }
 }

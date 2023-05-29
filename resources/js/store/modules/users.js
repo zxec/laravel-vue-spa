@@ -18,11 +18,12 @@ export const mutations = {
   [types.CREATE_USER] (state, { user }) {
     state.users.push(user)
   },
-  [types.UPDATE_USER] (state, { user }) {
-    state.users.find(element => element.id === user.id)
+  [types.EDIT_USER] (state, { user }) {
+    const index = state.users.findIndex(item => item.id === user.id)
+    state.users[index] = user
   },
   [types.DELETE_USER] (state, { id }) {
-    const index = state.users.findIndex(element => element.id === id)
+    const index = state.users.findIndex(item => item.id === id)
     state.users.splice(index, 1)
   }
 }
@@ -36,7 +37,7 @@ export const actions = {
     commit(types.CREATE_USER, payload)
   },
   updateUser ({ commit }, payload) {
-    commit(types.UPDATE_USER, payload)
+    commit(types.EDIT_USER, payload)
   },
   deleteUser ({ commit }, payload) {
     commit(types.DELETE_USER, payload)

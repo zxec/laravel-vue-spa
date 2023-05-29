@@ -10,7 +10,7 @@ use App\Http\Requests\User\UserCreateRequest;
 
 class UserController extends Controller
 {
-    public Service $service;
+    protected Service $service;
 
     public function __construct(Service $service)
     {
@@ -58,7 +58,6 @@ class UserController extends Controller
      */
     public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
-        // $user = User::find($user);
-        return response()->json(User::destroy($id));
+        return $this->service->destroy($id);
     }
 }
