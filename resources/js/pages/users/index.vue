@@ -1,6 +1,6 @@
 <template>
   <card :title="$t('users')">
-    <div class="mb-3 row">
+    <div class="mb-1 row">
       <div class="d-flex">
         <router-link :to="{ name: 'users.create' }">
           <v-button type="success">
