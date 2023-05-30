@@ -117,4 +117,8 @@ export default {
   .table thead th {
     height: 41px;
   }
+  .table td, .table th {
+    text-align: center;
+    vertical-align: middle;
+  }
 </style>
