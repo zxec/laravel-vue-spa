@@ -112,3 +112,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .table thead th {
+    height: 41px;
+  }
+</style>
