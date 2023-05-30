@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-7 m-auto">
       <card :title="title">
-        <form @submit.prevent="`${action}`" @keydown="form.onKeydown($event)">
+        <form @submit.prevent="change" @keydown="form.onKeydown($event)">
           <div class="mb-3 row">
             <label class="col-md-3 col-form-label text-md-end">{{ $t('name') }}</label>
             <div class="col-md-7">
@@ -54,12 +54,7 @@ export default {
 
   props: {
     user: { type: Object, default: null },
-    title: { type: String, default: null },
-    action: { type: String, default: null }
-  },
-
-  metaInfo () {
-    return { title: this.$t('settings') }
+    title: { type: String, default: null }
   },
 
   data: () => ({
@@ -72,20 +67,15 @@ export default {
   }),
 
   created () {
-    this.form.name = this.user.name
-    this.form.email = this.user.email
+    if (this.user !== null) {
+      this.form.name = this.user.name
+      this.form.email = this.user.email
+    }
   },
 
   methods: {
-    async update () {
-      const { data } = await this.form.patch(`/api/users/${this.$route.params.id}`)
-      await this.$store.dispatch('users/updateUser', { user: data })
-      this.$router.push({ name: 'users.index' })
-    },
-    async create () {
-      const { data } = await this.form.post('/api/users')
-      await this.$store.dispatch('users/createUser', { user: data })
-      this.$router.push({ name: 'users.index' })
+    async change () {
+      await this.$emit('change', this.form)
     }
   }
 }
