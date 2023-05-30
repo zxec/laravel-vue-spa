@@ -123,7 +123,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d.m.Y H:i:s');
+        return Carbon::parse($value)->addHours(3)->format('d.m.Y H:i:s');
     }
 
     /**
@@ -134,6 +134,6 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d.m.Y H:i:s');
+        return Carbon::parse($value)->addHours(3)->format('d.m.Y H:i:s');
     }
 }
