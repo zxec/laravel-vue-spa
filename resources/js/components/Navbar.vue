@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
@@ -20,7 +20,6 @@
         </ul>
 
         <ul class="navbar-nav ms-auto">
-          <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
                href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -41,7 +40,9 @@
               </a>
             </div>
           </li>
-          <!-- Guest -->
+
+
+
           <template v-else>
             <li class="nav-item">
               <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
@@ -58,6 +59,56 @@
       </div>
     </div>
   </nav>
+</template> -->
+
+<template>
+  <v-list-item>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="text-h6">
+          <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
+            {{ appName }}
+          </router-link>
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-divider></v-divider>
+
+    <v-list
+      dense
+      nav
+    >
+      <!-- <v-list-item
+        link
+      > -->
+        <!-- <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon> -->
+
+
+        <!-- <v-list-item-title>{{ pageUsers }}</v-list-item-title> -->
+      <v-list-item v-if="user" link>
+        <v-list-item-content>
+
+        </v-list-item-content>
+      </v-list-item>
+      <template v-else>
+        <v-list-item>
+          <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
+            {{ $t('login') }}
+          </router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
+            {{ $t('register') }}
+          </router-link>
+        </v-list-item>
+      </template>
+
+      <!-- </v-list-item> -->
+    </v-list>
+  </v-list-item>
 </template>
 
 <script>
@@ -66,7 +117,7 @@ import LocaleDropdown from './LocaleDropdown'
 
 export default {
   components: {
-    LocaleDropdown
+    LocaleDropdown,
   },
 
   data: () => ({

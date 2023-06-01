@@ -1,15 +1,36 @@
 <template>
-  <div id="app">
-    <loading ref="loading" />
-
-    <transition name="page" mode="out-in">
-      <component :is="layout" v-if="layout" />
-    </transition>
-  </div>
+  <v-app>
+    <v-navigation-drawer
+      app
+      left
+      v-model="drawer"
+    >
+      <navbar />
+    </v-navigation-drawer>
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <user-dropdown />
+      <locale-dropdown />
+    </v-app-bar>
+    <v-main>
+      <v-container fluid>
+        <router-view>
+          <loading ref="loading" />
+          <transition name="page" mode="out-in">
+            <component :is="layout" v-if="layout" />
+          </transition>
+        </router-view>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 import Loading from './Loading'
+import Navbar from '~/components/Navbar'
+import LocaleDropdown from './LocaleDropdown'
+import UserDropdown from './UserDropdown'
 
 // Load layout components dynamically.
 const requireContext = require.context('~/layouts', false, /.*\.vue$/)
@@ -27,12 +48,17 @@ export default {
   el: '#app',
 
   components: {
-    Loading
+    Loading,
+    Navbar,
+    LocaleDropdown,
+    UserDropdown
   },
 
   data: () => ({
     layout: null,
-    defaultLayout: 'default'
+    defaultLayout: 'default',
+    drawer: true,
+    group: null
   }),
 
   metaInfo () {

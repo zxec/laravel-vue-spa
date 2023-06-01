@@ -1,5 +1,6 @@
 <template>
-  <div class="basic-layout d-flex align-items-center justify-content-center m-0 bg-white">
+  <!-- <div class="basic-layout d-flex align-items-center justify-content-center m-0 bg-white"> -->
+  <div>
     <child />
   </div>
 </template>
@@ -10,7 +11,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<!-- <style lang="scss">
 .basic-layout {
   color: #636b6f;
   height: 100vh;
@@ -27,4 +28,4 @@ export default {
     text-transform: uppercase;
   }
 }
-</style>
+</style> -->

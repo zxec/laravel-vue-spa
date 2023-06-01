@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <li v-if="Object.keys(locales).length > 1" class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button"
        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -13,6 +13,29 @@
       </a>
     </div>
   </li>
+</template> -->
+
+<template>
+  <v-menu offset-y>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        dark
+        v-bind="attrs"
+        v-on="on"
+      >
+        {{ locales[locale] }}
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
+        v-for="(item, index) in locales"
+        :key="index"
+        @click.prevent="setLocale(index)"
+      >
+        <v-list-item-title>{{ item }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script>
