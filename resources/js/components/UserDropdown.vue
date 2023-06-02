@@ -17,16 +17,16 @@
       </a>
     </div>
   </div> -->
-  <v-menu>
+  <!-- <v-menu>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
+      <v-avatar
         dark
         v-bind="attrs"
         v-on="on"
       >
         <img :src="user.photo_url" class="rounded-circle profile-photo me-1">
         {{ user.name }}
-      </v-btn>
+      </v-avatar>
     </template>
     <v-list>
       <v-list-item>
@@ -43,7 +43,11 @@
         </a>
       </v-list-item>
     </v-list>
-  </v-menu>
+  </v-menu> -->
+  <v-btn dark @click.prevent="logout">
+    <fa icon="sign-out-alt" fixed-width />
+    {{ $t('logout') }}
+  </v-btn>
 </template>
 
 <script>

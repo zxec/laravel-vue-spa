@@ -41,8 +41,6 @@
             </div>
           </li>
 
-
-
           <template v-else>
             <li class="nav-item">
               <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
@@ -62,7 +60,7 @@
 </template> -->
 
 <template>
-  <v-list-item>
+  <v-list dense nav>
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="text-h6">
@@ -72,43 +70,27 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-
     <v-divider></v-divider>
-
-    <v-list
-      dense
-      nav
-    >
-      <!-- <v-list-item
-        link
-      > -->
-        <!-- <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon> -->
-
-
-        <!-- <v-list-item-title>{{ pageUsers }}</v-list-item-title> -->
-      <v-list-item v-if="user" link>
-        <v-list-item-content>
-
-        </v-list-item-content>
+    <v-list-item v-if="user" link>
+      <v-list-item-content>
+        <router-link :to="{ name: 'users.index' }" class="nav-link">
+          {{ pageUsers }}
+        </router-link>
+      </v-list-item-content>
+    </v-list-item>
+    <template v-else>
+      <v-list-item>
+        <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
+          {{ $t('login') }}
+        </router-link>
       </v-list-item>
-      <template v-else>
-        <v-list-item>
-          <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
-            {{ $t('login') }}
-          </router-link>
-        </v-list-item>
-        <v-list-item>
-          <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
-            {{ $t('register') }}
-          </router-link>
-        </v-list-item>
-      </template>
-
-      <!-- </v-list-item> -->
-    </v-list>
-  </v-list-item>
+      <v-list-item>
+        <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
+          {{ $t('register') }}
+        </router-link>
+      </v-list-item>
+    </template>
+  </v-list>
 </template>
 
 <script>
@@ -142,7 +124,7 @@ export default {
 </script>
 
 <style scoped>
-.profile-photo {
+/* .profile-photo {
   width: 2rem;
   height: 2rem;
   margin: -.375rem 0;
@@ -150,5 +132,5 @@ export default {
 
 .container {
   max-width: 1100px;
-}
+} */
 </style>

@@ -10,8 +10,8 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <user-dropdown />
       <locale-dropdown />
+      <user-dropdown />
     </v-app-bar>
     <v-main>
       <v-container fluid>

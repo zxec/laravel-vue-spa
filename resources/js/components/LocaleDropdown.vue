@@ -16,7 +16,7 @@
 </template> -->
 
 <template>
-  <v-menu offset-y>
+  <v-menu class="m-5">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         dark
