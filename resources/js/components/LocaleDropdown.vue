@@ -16,7 +16,7 @@
 </template> -->
 
 <template>
-  <v-menu class="m-5">
+  <v-menu>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         dark

@@ -40,14 +40,14 @@ class UserService
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id): \Illuminate\Http\JsonResponse
+    public function destroy(User $user): \Illuminate\Http\JsonResponse
     {
-        if(auth()->user()->id === $id) {
+        if(auth()->user()->id === $user->id) {
             return response()->json(['error' => __('auth.fail_delete_user')]);
         }
-        return response()->json(User::destroy($id));
+        return response()->json($user->delete());
     }
 }

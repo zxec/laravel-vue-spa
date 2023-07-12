@@ -11,6 +11,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <locale-dropdown />
+      <v-spacer></v-spacer>
       <user-dropdown />
     </v-app-bar>
     <v-main>

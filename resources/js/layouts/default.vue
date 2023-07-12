@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="main-layout">
     <navbar />
 
@@ -18,4 +18,4 @@ export default {
     Navbar
   }
 }
-</script>
+</script> -->
