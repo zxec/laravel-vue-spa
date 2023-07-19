@@ -70,99 +70,53 @@
 </template> -->
 
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="users"
-    locale="ru-RU"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title>
-          {{ $t('users') }}
-        </v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        />
-        <v-spacer />
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ $t('create') }}
-            </v-btn>
-          </template>
-          <v-card>
-            <form @submit.prevent="create" @keydown="form.onKeydown($event)">
-              <v-card-title>
-                <span class="headline"></span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="form.name" label="Имя" type="text" name="name"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="form.email" label="Email" type="email" name="email"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="form.password" label="Пароль" type="password" name="password"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="form.password_confirmation" label="Подтвердите пароль" type="password" name="password_confirmation"></v-text-field>
-                    </v-col>
-                  </v-col>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <!-- <v-button :loading="form.busy">
-                  {{ title }}
-                </v-button> -->
-                <v-btn v-if="editedIndex" color="blue darken-1" text @click="update(idItem)">Edit</v-btn>
-                <v-btn v-else color="blue darken-1" text @click="create">Save</v-btn>
-              </v-card-actions>
-            </form>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="del(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="index">Reset</v-btn>
-    </template>
-  </v-data-table>
+  <div>
+    <user-table :users=users>
+    </user-table>
+    <v-card v-show="dialog">
+      <form @submit.prevent="create" @keydown="form.onKeydown($event)">
+        <v-card-title>
+          <span class="headline"></span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-col>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field v-model="form.name" label="Имя" type="text" name="name"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field v-model="form.email" label="Email" type="email" name="email"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field v-model="form.password" label="Пароль" type="password" name="password"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field v-model="form.password_confirmation" label="Подтвердите пароль" type="password" name="password_confirmation"></v-text-field>
+              </v-col>
+            </v-col>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+          <v-btn v-if="editedIndex" color="blue darken-1" text @click="update(idItem)">Edit</v-btn>
+          <v-btn v-else color="blue darken-1" text @click="create">Save</v-btn>
+        </v-card-actions>
+      </form>
+    </v-card>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import Form from 'vform'
+import UserTable from '~/components/UserTable'
 
 export default {
+  components: {
+    UserTable
+  },
   data: () => ({
     form: new Form({
       name: '',
@@ -170,14 +124,9 @@ export default {
       password: '',
       password_confirmation: ''
     }),
+    // users: [],
     dialog: false,
     headers: [
-      // {
-      //   text: '#',
-      //   align: 'start',
-      //   sortable: false,
-      //   value: 'name'
-      // },
       { text: '#', value: 'id' },
       { text: 'Имя', value: 'name' },
       { text: 'Email', value: 'email' },
@@ -185,29 +134,13 @@ export default {
       { text: 'Дата редактирования', value: 'updated_at' },
       { text: 'Действия', value: 'actions', sortable: false }
     ],
-    // desserts: [],
     editedIndex: false,
     idItem: 0,
-    // editedItem: {
-    //   name: '',
-    //   calories: 0,
-    //   fat: 0,
-    //   carbs: 0,
-    //   protein: 0
-    // },
-    // defaultItem: {
-    //   name: '',
-    //   calories: 0,
-    //   fat: 0,
-    //   carbs: 0,
-    //   protein: 0
-    // },
     icons: {
       create: 'plus',
       edit: 'pen',
       delete: 'trash'
     }
-    // formTitle: 'weqwe'
   }),
 
   metaInfo () {
@@ -217,21 +150,11 @@ export default {
   computed: mapGetters({
     users: 'users/users'
   }),
-  // formTitle () {
-  //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-  // },
-
-  // computed: mapGetters({
-  //   users: 'users/users'
-  // }),
 
   watch: {
     dialog (val) {
       val || this.close()
     }
-    // formTitle () {
-    //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    // }
   },
 
   created () {
@@ -239,8 +162,7 @@ export default {
   },
 
   methods: {
-    async index () {
-      // const { data } = await axios.get('/api/users')
+    index () {
       this.$store.dispatch('users/indexUsers')
     },
 
@@ -251,23 +173,17 @@ export default {
       }
     },
 
-    // created () {
-    //   if (this.user !== null) {
-    //     this.form.name = this.user.name
-    //     this.form.email = this.user.email
-    //   }
-    // },
-
     editItem (item) {
       this.form.name = item.name
       this.form.email = item.email
       this.form.password = item.password
       this.form.password_confirmation = item.password_confirmation
-      // console.log(this.users[this.users.indexOf(item)])
       this.idItem = this.users[this.users.indexOf(item)].id
       this.editedIndex = true
+
       // this.editedIndex = this.users.indexOf(item)
       // this.editedItem = Object.assign({}, item)
+
       this.dialog = true
     },
 

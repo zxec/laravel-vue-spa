@@ -67,9 +67,9 @@ async function beforeEach (to, from, next) {
   }
 
   // Start the loading bar.
-  if (components[components.length - 1].loading !== false) {
-    router.app.$nextTick(() => router.app.$loading.start())
-  }
+  // if (components[components.length - 1].loading !== false) {
+  //   router.app.$nextTick(() => router.app.$loading.start())
+  // }
 
   // Get the middleware for all the matched components.
   const middleware = getMiddleware(components)
@@ -129,7 +129,7 @@ async function asyncData (components) {
 async function afterEach (to, from, next) {
   await router.app.$nextTick()
 
-  router.app.$loading.finish()
+  // router.app.$loading.finish()
 }
 
 /**
@@ -147,7 +147,7 @@ function callMiddleware (middleware, to, from, next) {
     // Stop if "_next" was called with an argument or the stack is empty.
     if (args.length > 0 || stack.length === 0) {
       if (args.length > 0) {
-        router.app.$loading.finish()
+        // router.app.$loading.finish()
       }
 
       return next(...args)
